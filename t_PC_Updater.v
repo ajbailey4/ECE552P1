@@ -1,10 +1,10 @@
 module t_PC_Updater();
-	reg clk, rst, branch, Z, N, V, AddrSrc, testFailed;
+	reg clk, rst, branch, Z, N, V, AddrSrc, hlt, testFailed;
 	reg [2:0] cond;
 	reg [15:0] InAddrImm, InAddrReg;
 	wire [15:0] OutAddr;
 
-	PC_Updater DUT(.clk(clk), .rst(rst), .AddrSrc(AddrSrc), .InAddrImm(InAddrImm), .InAddrReg(InAddrReg), .branch(branch), .cond(cond), .Z(Z), .N(N), .V(V), .OutAddr(OutAddr), .PCSOut());
+	PC_Updater DUT(.clk(clk), .rst(rst), .AddrSrc(AddrSrc), .InAddrImm(InAddrImm), .InAddrReg(InAddrReg), .branch(branch), .cond(cond), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(OutAddr), .PCSOut());
 
 	initial begin
 		clk = 0;
@@ -12,6 +12,7 @@ module t_PC_Updater();
 		branch = 0;
 		testFailed = 0;
 		AddrSrc = 1;
+		hlt = 0;
 		
 		@(posedge clk);
 		#1;
@@ -223,6 +224,14 @@ module t_PC_Updater();
 		if (OutAddr != 16'd100) begin
 			testFailed = 1;
 			$display("111: Didn't jump (OutAddr: %b)", OutAddr);
+		end
+
+		// Halt
+		hlt = 1;
+		@(posedge clk);
+		if (OutAddr != 16'd100) begin
+			testFailed = 1;
+			$display("hlt: didn't halt (OutAddr: %b)", OutAddr);
 		end
 
 		if (testFailed == 0) begin
