@@ -8,38 +8,53 @@ module cla_16bit(
     output Z,
     output V
 );
-    //TODO: Add flag-setting
 
-    wire [3:0] carry;
+    wire [15:0] g, p, b_xor_sub;
+    wire [16:0] c;
+
     wire [15:0] result; 
 
-    // sign extend a 16 bit value to 20 bits
-    wire [19:0] a_signext;
-    wire [19:0] b_signext;
+    assign b_xor_sub = sub ? ~b : b;
 
-    assign a_signext = {{16{a[15]}}, a};
-    assign b_signext = {{16{b[15]}}, b};
+    assign g = a & b_xor_sub;
+    assign p = a ^ b_xor_sub;
 
-    cla_4bit cla1(.a(a_signext[3:0]), .b(b_signext[3:0]), .cin(sub), .sub(sub), .sum(result[3:0]), .cout(carry[0]));
-    cla_4bit cla2(.a(a_signext[7:4]), .b(b_signext[7:4]), .cin(carry[0]), .sub(sub), .sum(result[7:4]), .cout(carry[1]));
-    cla_4bit cla3(.a(a_signext[11:8]), .b(b_signext[11:8]), .cin(carry[1]), .sub(sub), .sum(result[11:8]), .cout(carry[2]));
-    cla_4bit cla4(.a(a_signext[15:12]), .b(b_signext[15:12]), .cin(carry[2]), .sub(sub), .sum(result[15:12]), .cout(carry[3]));
+    assign c[0] = sub;
+    assign c[1] = g[0] | (p[0] & c[0]);
+    assign c[2] = g[1] | (p[1] & c[1]);
+    assign c[3] = g[2] | (p[2] & c[2]);
+    assign c[4] = g[3] | (p[3] & c[3]);
+    assign c[5] = g[4] | (p[4] & c[4]);
+    assign c[6] = g[5] | (p[5] & c[5]);
+    assign c[7] = g[6] | (p[6] & c[6]);
+    assign c[8] = g[7] | (p[7] & c[7]);
+    assign c[9] = g[8] | (p[8] & c[8]);
+    assign c[10] = g[9] | (p[9] & c[9]);
+    assign c[11] = g[10] | (p[10] & c[10]);
+    assign c[12] = g[11] | (p[11] & c[11]);
+    assign c[13] = g[12] | (p[12] & c[12]);
+    assign c[14] = g[13] | (p[13] & c[13]);
+    assign c[15] = g[14] | (p[14] & c[14]);
+    assign c[16] = g[15] | (p[15] & c[15]);
 
-    // carry[4] does not matter!
-    cla_4bit satlogic(.a(a_signext[19:16]), .b(b_signext[19:16]), .cin(carry[3]), .sub(sub), .sum(result[19:16]), .cout(carry[4]));
+    assign result = p ^ c[15:0];
+
+    assign cout = c[16];
 
     // saturation arithmatic
-    assign sum = (result[19]) ? ((~&result[18:15]) ? 16'h8000:result[15:0]) : ((|result[18:15]) ? 16'h7FFF:result[15:0]);
+    assign sum = result[15] ? ((~a[15] & ~b[15]) ? 16'h7FFF : result)
+        : ((a[15] & b[15]) ? 16'h8000 : result);
 
     // overflow flag to alu
-    assign V = (result[19]) ? (~&result[18:15]) : (|result[18:15]);
+    assign V = result[15] ? ((~a[15] & ~b[15]) ? 1'b1 : 1'b0)
+        : ((a[15] & b[15]) ? 1'b1 : 1'b0);
 
     // Negative flag set
-    assign N = (result[19]) ? ((~&result[18:15])) : (~(|result[18:15]));
+    assign N = sum[15] ? 1'b1 : 1'b0;
 
     // Zero Flag
-    assign Z = (result == 0);
+    assign Z = (sum == 0);
 
     // carryout
-    assign cout = carry[3];
+    assign cout = c[16];
 endmodule
