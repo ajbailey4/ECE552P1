@@ -1,4 +1,5 @@
 module Control_tb();
+
     // Inputs
     reg [3:0] Instruction;
 
@@ -16,103 +17,121 @@ module Control_tb();
         .ALUSrc(ALUSrc)
     );
 
-    intial beign
-        Instruction = 4'h0; // ADD
-        #10; 
+    initial begin
+        // Test Case 1: ADD
+        Instruction = 4'h0;
+        #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ALUSrc) begin
             $display("Test Failed with ADD instruction");
         end
 
-        Instruction = 4'h1; // SUB
+        // Test Case 2: SUB
+        Instruction = 4'h1;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ALUSrc) begin
             $display("Test Failed with SUB instruction");
         end
 
-        Instruction = 4'h2; // XOR
+        // Test Case 3: XOR
+        Instruction = 4'h2;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ALUSrc) begin
             $display("Test Failed with XOR instruction");
         end
 
-        Instruction = 4'h3; // RED
+        // Test Case 4: RED
+        Instruction = 4'h3;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ALUSrc) begin
             $display("Test Failed with RED instruction");
         end
 
-        Instruction = 4'h4; // SLL
+        // Test Case 5: SLL
+        Instruction = 4'h4;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with SLL instruction");
         end
 
-        Instruction = 4'h5; // SRA
+        // Test Case 6: SRA
+        Instruction = 4'h5;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with SRA instruction");
         end
 
-        Instruction = 4'h6; // ROR
+        // Test Case 7: ROR
+        Instruction = 4'h6;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with ROR instruction");
         end
 
-        Instruction = 4'h7; // PADDSB
+        // Test Case 8: PADDSB
+        Instruction = 4'h7;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ALUSrc) begin
             $display("Test Failed with PADDSB instruction");
         end
 
-        Instruction = 4'h8; // LW
+        // Test Case 9: LW
+        Instruction = 4'h8;
         #10;
         if(~RegWrite | MemWrite | ~MemtoReg | ~MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with LW instruction");
         end
 
-        Instruction = 4'h9; // SW
+        // Test Case 10: SW
+        Instruction = 4'h9;
         #10;
         if(RegWrite | ~MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with SW instruction");
         end
 
-        Instruction = 4'hA; // LLB
+        // Test Case 11: LLB
+        Instruction = 4'hA;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with LLB instruction");
         end
 
-        Instruction = 4'hB; // LHB
+        // Test Case 12: LHB
+        Instruction = 4'hB;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch | ~ALUSrc) begin
             $display("Test Failed with LHB instruction");
         end
 
-        Instruction = 4'hC; // B
+        // Test Case 13: B
+        Instruction = 4'hC;
         #10;
         if(RegWrite | MemWrite | MemtoReg | MemRead | ~Branch | ~ALUSrc) begin
             $display("Test Failed with B instruction");
         end
 
-        Instruction = 4'hD; // BR
+        // Test Case 14: BR
+        Instruction = 4'hD;
         #10;
         if(RegWrite | MemWrite | MemtoReg | MemRead | ~Branch) begin
             $display("Test Failed with BR instruction");
         end
 
-        Instruction = 4'hE; // PCS
+        // Test Case 15: PCS
+        Instruction = 4'hE;
         #10;
         if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch) begin
             $display("Test Failed with PCS instruction");
         end
 
-        Instruction = 4'hF; // HLT
+        // Test Case 16: HLT
+        Instruction = 4'hF;
         #10;
-        if(~RegWrite | MemWrite | MemtoReg | MemRead | Branch) begin
+        if(RegWrite | MemWrite | MemtoReg | MemRead | Branch) begin
             $display("Test Failed with HLT instruction");
         end
 
-    end
+        $display("Test Passed");
 
+        $stop; // Finish simulation
+    end
 endmodule
