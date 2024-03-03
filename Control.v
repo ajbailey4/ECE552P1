@@ -5,9 +5,6 @@ module Control(Instruction, RegWrite, ALUSrc,
 
     input [3:0] Instruction;
     output RegWrite, MemWrite, MemtoReg, MemRead, Branch, ALUSrc; // General Controls
-    output [3:0] Opcode;
-
-    assign Opcode = Instruction;
 
     // comp. inst. & lw,llb,lhb,pcs
     assign RegWrite = (~Instruction[3] | 
