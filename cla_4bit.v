@@ -3,6 +3,7 @@ module cla_4bit(
     input [3:0] b,
     input cin,
     input sub,
+    input sat,
     output signed [3:0] sum,
     output cout
 );
@@ -26,6 +27,6 @@ module cla_4bit(
 
     assign cout = c[4];
 
-    assign sum = (result[3]) ? ((~cout) ? 4'b0111 : result) : ((cout) ? 4'b1000 : result);
+    assign  = (sat) ? ((result[3]) ?  ((~a[3] & ~b[3]) ? 4'b0111 : result) : ((a[3] & b[3]) ? 4'b1000 : result)) : result;
 
 endmodule
