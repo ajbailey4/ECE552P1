@@ -1,7 +1,7 @@
 // TODO: 3 bits for num of bits. one bit as sined or unsigned out
 
 module Control(Instruction, RegWrite, ALUSrc, 
-    MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB);
+    MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br);
 
     input [3:0] Instruction;
     output RegWrite, MemWrite, MemtoReg, MemRead, Branch, ALUSrc, LxB, PCStore, Br; // General Controls
