@@ -89,19 +89,19 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
             NZV_wen = 3'b000;
         end
         4'b1100: begin //B
-
+            ALU_Out = 16'hxxxx;
             NZV_wen = 3'b000;
         end
         4'b1101: begin //BR
-
+            ALU_Out = 16'hxxxx;
             NZV_wen = 3'b000;
         end
         4'b1110: begin //PCS
-
+            ALU_Out = 16'hxxxx;
             NZV_wen = 3'b000;
         end
         4'b1111: begin //HLT
-
+            ALU_Out = 16'hxxxx;
             NZV_wen = 3'b000;
         end
         default: begin
