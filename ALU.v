@@ -15,15 +15,15 @@ module ALU (ALU_Out, Error, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag);
     
     always_comb begin
         case (Opcode)
-            4'b0000: begin //ADD
+            4'b0000: begin //ADD: N,Z,V
                 ALU_Out = sum;
                 Error = ovfl;
             end
-            4'b0001: begin //SUB
+            4'b0001: begin //SUB: N,Z,V
                 ALU_Out = sum;
                 Error = ovfl;
             end
-            4'b0010: begin //XOR
+            4'b0010: begin //XOR: Z
                 ALU_Out = ALU_In1 ^ ALU_In2;
                 Error = 0;
             end
@@ -31,15 +31,15 @@ module ALU (ALU_Out, Error, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag);
                 ALU_Out =
                 Error = 0;
             end
-            4'b0100: begin //SLL
+            4'b0100: begin //SLL: Z
                 ALU_Out = shift_output;
                 Error = 0;
             end
-            4'b0101: begin //SRA
+            4'b0101: begin //SRA: Z
                 ALU_Out = shift_output;
                 Error = 0;
             end
-            4'b0110: begin //ROR
+            4'b0110: begin //ROR: Z
 
             end
             4'b0111: begin //PADDSB
