@@ -1,4 +1,4 @@
-module addsub_16bit_tb;
+module addsub_16bit_tb();
 reg [15:0] A, B;
 reg sub;
 wire [15:0] Sum;
