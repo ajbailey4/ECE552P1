@@ -3,8 +3,13 @@ module cla_16bit(
     input [15:0] b,
     input sub,
     output signed [15:0] sum,
-    output cout
+    output cout,
+    output N,
+    output Z,
+    output V
 );
+    //TODO: Add flag-setting
+
     wire [3:0] carry;
     wire [15:0] result; 
 
@@ -15,7 +20,7 @@ module cla_16bit(
 
     //assign sum = result;
 
-    assign sum = assign sum = (result[15]) ? ((~carry[3]) ? max_value:result):((carry[3]) ? min_value:result);
+    assign sum = (result[15]) ? ((~carry[3]) ? 16'h7FFF:result):((carry[3]) ? 16'h8000:result);
 
     assign cout = carry[3];
 endmodule
