@@ -17,86 +17,84 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
 
     Shifter shift(.Shift_In(ALU_In1), .Shift_Val(ALU_In1), .Shift_Out(shift_output), .Mode(Opcode[0]));
 
-    dff N(.q(N_Flag), .d(N_In), .wen(NZV_wen[2]), .clk(clk), .rst(rst));
-    dff Z(.q(Z_Flag), .d(Z_In), .wen(NZV_wen[1]), .clk(clk), .rst(rst));
-    dff V(.q(V_Flag), .d(V_In), .wen(NZV_wen[0]), .clk(clk), .rst(rst));
+    dff N_dff(.q(N_Flag), .d(N_In), .wen(NZV_wen[2]), .clk(clk), .rst(rst));
+    dff Z_dff(.q(Z_Flag), .d(Z_In), .wen(NZV_wen[1]), .clk(clk), .rst(rst));
+    dff V_dff(.q(V_Flag), .d(V_In), .wen(NZV_wen[0]), .clk(clk), .rst(rst));
 
-    assign Z_In = (Opcode[3:1] == 3'b000) Z_Out : Z;
+    assign Z_In = (Opcode[3:1] == 3'b000) ? Z_Out : Z;
 
-    always_comb begin
-        case (Opcode)
-            4'b0000: begin //ADD: N,Z,V
-                ALU_Out = sum;
-                NZV_wen = 3'b111;
-            end
-            4'b0001: begin //SUB: N,Z,V
-                ALU_Out = sum;
-                NZV_wen = 3'b111;
-            end
-            4'b0010: begin //XOR: Z
-                ALU_Out = ALU_In1 ^ ALU_In2;
-                NZV_wen = 3'b010;
-                Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
-            end
-            4'b0011: begin //RED
-                ALU_Out =
-                NZV_wen = 3'b000;
-            end
-            4'b0100: begin //SLL: Z
-                ALU_Out = shift_output;
-                NZV_wen = 3'b010;
-                Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
-            end
-            4'b0101: begin //SRA: Z
-                ALU_Out = shift_output;
-                NZV_wen = 3'b010;
-                Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
-            end
-            4'b0110: begin //ROR: Z
+    always @* case (Opcode)
+        4'b0000: begin //ADD: N,Z,V
+            ALU_Out = sum;
+            NZV_wen = 3'b111;
+        end
+        4'b0001: begin //SUB: N,Z,V
+            ALU_Out = sum;
+            NZV_wen = 3'b111;
+        end
+        4'b0010: begin //XOR: Z
+            ALU_Out = ALU_In1 ^ ALU_In2;
+            NZV_wen = 3'b010;
+            Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
+        end
+        4'b0011: begin //RED
+            ALU_Out =
+            NZV_wen = 3'b000;
+        end
+        4'b0100: begin //SLL: Z
+            ALU_Out = shift_output;
+            NZV_wen = 3'b010;
+            Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
+        end
+        4'b0101: begin //SRA: Z
+            ALU_Out = shift_output;
+            NZV_wen = 3'b010;
+            Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
+        end
+        4'b0110: begin //ROR: Z
 
-                NZV_wen = 3'b010;
-                Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
-            end
-            4'b0111: begin //PADDSB
+            NZV_wen = 3'b010;
+            Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
+        end
+        4'b0111: begin //PADDSB
 
-                NZV_wen = 3'b000;
-            end
-            4'b1000: begin //LW
+            NZV_wen = 3'b000;
+        end
+        4'b1000: begin //LW
 
-                NZV_wen = 3'b000;
-            end
-            4'b1001: begin //SW
+            NZV_wen = 3'b000;
+        end
+        4'b1001: begin //SW
 
-                NZV_wen = 3'b000;
-            end
-            4'b1010: begin //LLB
+            NZV_wen = 3'b000;
+        end
+        4'b1010: begin //LLB
 
-                NZV_wen = 3'b000;
-            end
-            4'b1011: begin //LHB
+            NZV_wen = 3'b000;
+        end
+        4'b1011: begin //LHB
 
-                NZV_wen = 3'b000;
-            end
-            4'b1100: begin //B
+            NZV_wen = 3'b000;
+        end
+        4'b1100: begin //B
 
-                NZV_wen = 3'b000;
-            end
-            4'b1101: begin //BR
+            NZV_wen = 3'b000;
+        end
+        4'b1101: begin //BR
 
-                NZV_wen = 3'b000;
-            end
-            4'b1110: begin //PCS
+            NZV_wen = 3'b000;
+        end
+        4'b1110: begin //PCS
 
-                NZV_wen = 3'b000;
-            end
-            4'b1111: begin //HLT
+            NZV_wen = 3'b000;
+        end
+        4'b1111: begin //HLT
 
-                NZV_wen = 3'b000;
-            end
-            default: begin
-                ALU_Out = 4'bxxxx;
-                NZV_wen = 3'b000;
-            end
-        endcase
-    end
+            NZV_wen = 3'b000;
+        end
+        default: begin
+            ALU_Out = 4'bxxxx;
+            NZV_wen = 3'b000;
+        end
+    endcase
 endmodule

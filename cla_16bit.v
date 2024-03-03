@@ -6,7 +6,7 @@ module cla_16bit(
     output cout,
     output N,
     output Z,
-    output V,
+    output V
 );
     //TODO: Add flag-setting
 
