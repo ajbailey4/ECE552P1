@@ -13,13 +13,25 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
     reg Z;
     reg [2:0] NZV_wen;
 
+    wire [15:0] RR_output;
+
+    wire [15:0] Mem_output;
+
+    wire [15:0] pas_output;
+
     cla_16bit cla(.a(ALU_In1), .b(ALU_In2), .sub(Opcode[0]), .sum(sum), .cout(), .N(N_In), .Z(Z_Out), .V(V_In));
 
-    Shifter shift(.Shift_In(ALU_In1), .Shift_Val(ALU_In1), .Shift_Out(shift_output), .Mode(Opcode[0]));
+    Shifter shift(.Shift_In(ALU_In1), .Shift_Val(ALU_In2), .Shift_Out(shift_output), .Mode(Opcode[0]));
+
+    RightRot rr(.RR_In(ALU_In1), .RR_Amt(ALU_In2), .RR_Out(RR_output));
+
+    PADDSB pas(.regT(ALU_In1), .regS(ALU_In2), .regD(pas_output));
 
     dff N_dff(.q(N_Flag), .d(N_In), .wen(NZV_wen[2]), .clk(clk), .rst(rst));
     dff Z_dff(.q(Z_Flag), .d(Z_In), .wen(NZV_wen[1]), .clk(clk), .rst(rst));
     dff V_dff(.q(V_Flag), .d(V_In), .wen(NZV_wen[0]), .clk(clk), .rst(rst));
+
+    Mem_Instr mem(.baseReg(ALU_In1), .offset(ALU_In2), .addr_out(Mem_output));
 
     assign Z_In = (Opcode[3:1] == 3'b000) ? Z_Out : Z;
 
@@ -52,20 +64,20 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
             Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
         end
         4'b0110: begin //ROR: Z
-
+            ALU_Out = RR_output;
             NZV_wen = 3'b010;
             Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
         end
         4'b0111: begin //PADDSB
-
+            ALU_Out = pas_output;
             NZV_wen = 3'b000;
         end
         4'b1000: begin //LW
-
+            ALU_Out = Mem_output;
             NZV_wen = 3'b000;
         end
         4'b1001: begin //SW
-
+            ALU_Out = Mem_output;
             NZV_wen = 3'b000;
         end
         4'b1010: begin //LLB
@@ -93,7 +105,7 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
             NZV_wen = 3'b000;
         end
         default: begin
-            ALU_Out = 4'bxxxx;
+            ALU_Out = 16'hxxxx;
             NZV_wen = 3'b000;
         end
     endcase
