@@ -9,8 +9,8 @@ module PC_Updater(clk, rst, AddrSrc, InAddrReg, InAddrImm, branch, cond, Z, N, V
 
 	Register pc(.clk(clk), .rst(rst), .D(pcIn), .WriteReg(1'b1), .ReadEnable1(1'b0), .ReadEnable2(), .Bitline1(pcOut), .Bitline2());
 	
-	cla_16bit plus2(.a(pcOut), .b(16'd2), .sub(1'b0), .sum(pcPlus2), .cout());
-	cla_16bit branchAdd(.a(pcPlus2), .b(shiftOut), .sub(1'b0), .sum(branchAddr), .cout());
+	cla_16bit plus2(.a(pcOut), .b(16'd2), .sub(1'b0), .sum(pcPlus2), .cout(), .N(), .Z(), .V());
+	cla_16bit branchAdd(.a(pcPlus2), .b(shiftOut), .sub(1'b0), .sum(branchAddr), .cout(), .N(), .Z(), .V());
 
 	Shifter ls1(.Shift_Out(shiftOut), .Shift_In(InAddr), .Shift_Val(4'd1), .Mode(1'b0));
 

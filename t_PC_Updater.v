@@ -4,7 +4,10 @@ module t_PC_Updater();
 	reg [15:0] InAddrImm, InAddrReg;
 	wire [15:0] OutAddr;
 
-	PC_Updater DUT(.clk(clk), .rst(rst), .AddrSrc(AddrSrc), .InAddrImm(InAddrImm), .InAddrReg(InAddrReg), .branch(branch), .cond(cond), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(OutAddr), .PCSOut());
+	PC_Updater DUT(.clk(clk), .rst(rst), .AddrSrc(AddrSrc),
+		.InAddrImm(InAddrImm), .InAddrReg(InAddrReg),
+		.branch(branch), .cond(cond), .Z(Z), .N(N), .V(V),
+		.hlt(hlt), .OutAddr(OutAddr), .PCSOut());
 
 	initial begin
 		clk = 0;
@@ -229,10 +232,24 @@ module t_PC_Updater();
 		// Halt
 		hlt = 1;
 		@(posedge clk);
+		#1;
+
 		if (OutAddr != 16'd100) begin
 			testFailed = 1;
 			$display("hlt: didn't halt (OutAddr: %b)", OutAddr);
 		end
+
+		hlt = 0;
+		branch = 0;
+		@(posedge clk);
+		#1;
+
+		if (OutAddr != 16'd102) begin
+			testFailed = 1;
+			$display("hlt: didn't resume (OutAddr: %b)", OutAddr);
+		end
+
+		@(posedge clk);
 
 		if (testFailed == 0) begin
 			$display("All tests passed");
