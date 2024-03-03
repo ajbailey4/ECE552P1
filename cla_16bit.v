@@ -4,10 +4,14 @@ module cla_16bit(
     input sub,
     output signed [15:0] sum,
     output cout,
-    output OvrFlow
+    output N,
+    output Z,
+    output V
 );
-    wire [4:0] carry;
-    wire [19:0] result; 
+    //TODO: Add flag-setting
+
+    wire [3:0] carry;
+    wire [15:0] result; 
 
     // sign extend a 16 bit value to 20 bits
     wire [19:0] a_signext;
@@ -28,9 +32,14 @@ module cla_16bit(
     assign sum = (result[19]) ? ((~&result[18:15]) ? 16'h8000:result[15:0]) : ((|result[18:15]) ? 16'h7FFF:result[15:0]);
 
     // overflow flag to alu
-    assign OvrFlow = (result[19]) ? (~&result[18:15]) : (|result[18:15]);
+    assign V = (result[19]) ? (~&result[18:15]) : (|result[18:15]);
+
+    // Negative flag set
+    assign N = (result[19]) ? ((~&result[18:15])) : (~(|result[18:15]));
+
+    // Zero Flag
+    assign Z = (result == 0);
 
     // carryout
     assign cout = carry[3];
-    
 endmodule
