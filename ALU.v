@@ -3,7 +3,7 @@ module ALU (ALU_Out, Error, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag);
     input [3:0] Opcode;
     output reg [15:0] ALU_Out;
     output reg Error;
-    output N_Flag, Z_Flag, V_Flag;
+    output reg N_Flag, Z_Flag, V_Flag;
     
     wire [15:0] sum;
     wire ovfl;
