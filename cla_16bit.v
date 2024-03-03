@@ -3,8 +3,13 @@ module cla_16bit(
     input [15:0] b,
     input sub,
     output signed [15:0] sum,
-    output cout
+    output cout,
+    output N,
+    output Z,
+    output V,
 );
+    //TODO: Add flag-setting
+
     wire [3:0] carry;
     wire [15:0] result; 
 
