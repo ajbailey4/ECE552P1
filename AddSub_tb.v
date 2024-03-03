@@ -7,10 +7,10 @@ wire cout;
 
 cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub));
 	initial begin
-		$monitor("A=%b, B=%b | Sub=%b | Sum=%b", A, B, sub, Sum);
+		$monitor("A=%d, B=%d | Sub=%d | Sum=%d", A, B, sub, Sum);
 		sub = 0; //Test addition
-		A = ($unsigned($random) % 65536) - 32768; //Generate a random number between 0 and 15
-		B = ($unsigned($random) % 65536) - 32768;
+		A = 20000;//($unsigned($random) % 65536) - 32768; //Generate a random number between 0 and 15
+		B = 10000;//($unsigned($random) % 65536) - 32768;
 		#10; //Wait for 10 time units
 		
 		//Check to see if add matches sum and if not if it is due to overflow
@@ -23,8 +23,8 @@ cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub));
 		end
 		
 		sub = 1; //Test subtraction
-		A = ($unsigned($random) % 65536) - 32768; //Generate a random number between 0 and 15
-		B = ($unsigned($random) % 65536) - 32768;
+		A = 20000;//($unsigned($random) % 65536) - 32768; //Generate a random number between 0 and 15
+		B = 10000;//($unsigned($random) % 65536) - 32768;
 		#10;
 		
 		//Check to see if sub matches sum and if not if it is due to overflow

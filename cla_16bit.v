@@ -6,9 +6,7 @@ module cla_16bit(
     output cout
 );
     wire [3:0] carry;
-    wire signed [15:0] result; 
-    wire signed [15:0] max_value = 16'h7FFF; 
-    wire signed [15:0] min_value = 16'h8000;
+    wire [15:0] result; 
 
     cla_4bit cla1(.a(a[3:0]), .b(b[3:0]), .cin(sub), .sub(sub), .sum(result[3:0]), .cout(carry[0]));
     cla_4bit cla2(.a(a[7:4]), .b(b[7:4]), .cin(carry[0]), .sub(sub), .sum(result[7:4]), .cout(carry[1]));
@@ -16,6 +14,8 @@ module cla_16bit(
     cla_4bit cla4(.a(a[15:12]), .b(b[15:12]), .cin(carry[2]), .sub(sub), .sum(result[15:12]), .cout(carry[3]));
 
     //assign sum = result;
-    assign sum = (result > max_value) ? max_value : ((result < min_value) ? min_value : result);
+
+    assign sum = (result[15]) ? ((~carry[3]) ? 16'h7FFF:result):((carry[3]) ? 16'h8000:result);
+
     assign cout = carry[3];
 endmodule
