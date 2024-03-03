@@ -15,9 +15,7 @@ module cla_16bit(
 
     //assign sum = result;
 
-    assign sum = (~result[15] & |result[14:0]) ? 16'h7FFF :
-        (result[15] & ~&result[14:0]) ? 16'h8000 :
-        result[15:0];
+    assign sum = assign sum = (result[15]) ? ((~carry[3]) ? max_value:result):((carry[3]) ? min_value:result);
 
     assign cout = carry[3];
 endmodule
