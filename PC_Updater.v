@@ -4,19 +4,20 @@ module PC_Updater(clk, rst, AddrSrc, InAddrReg, InAddrImm, branch, cond, Z, N, V
 	input [15:0] InAddrImm, InAddrReg;
 	output [15:0] OutAddr, PCSOut;
 
-	wire [15:0] pcIn, pcOut, pcPlus2, InAddr, shiftOut, branchAddr, newAddr;
+	wire [15:0] pcIn, pcOut, pcPlus2, shiftOut, pcBranchImm, pcBranch, newPc;
 	reg isBranching;
 
 	Register pc(.clk(clk), .rst(rst), .D(pcIn), .WriteReg(1'b1), .ReadEnable1(1'b0), .ReadEnable2(), .Bitline1(pcOut), .Bitline2());
 	
 	cla_16bit plus2(.a(pcOut), .b(16'd2), .sub(1'b0), .sum(pcPlus2), .cout(), .N(), .Z(), .V());
-	cla_16bit branchAdd(.a(pcPlus2), .b(shiftOut), .sub(1'b0), .sum(branchAddr), .cout(), .N(), .Z(), .V());
+	cla_16bit branchAdd(.a(pcPlus2), .b(shiftOut), .sub(1'b0), .sum(pcBranchImm), .cout(), .N(), .Z(), .V());
 
-	Shifter ls1(.Shift_Out(shiftOut), .Shift_In(InAddr), .Shift_Val(4'd1), .Mode(1'b0));
+	Shifter ls1(.Shift_Out(shiftOut), .Shift_In(InAddrImm), .Shift_Val(4'd1), .Mode(1'b0));
 
-	assign InAddr = AddrSrc ? InAddrImm : InAddrReg;
-	assign newAddr = isBranching ? shiftOut : pcPlus2;
-	assign pcIn = hlt ? pcOut : newAddr;
+	assign pcBranch = AddrSrc ? pcBranchImm : InAddrReg;
+	assign newPc = isBranching ? pcBranch : pcPlus2;
+	assign pcIn = hlt ? pcOut : newPc;
+
 	assign OutAddr = pcOut;
 	assign PCSOut = pcPlus2;
 
