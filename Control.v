@@ -36,7 +36,7 @@ module Control(Instruction, RegWrite, ALUSrc,
     assign PCStore = (Instruction[3] & Instruction[2]);
 
     // Br
-    assign Br = Instruction[0]
+    assign Br = Instruction[0];
 
 
 endmodule

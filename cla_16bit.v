@@ -46,11 +46,10 @@ module cla_16bit(
         : ((a[15] & b[15]) ? 16'h8000 : result);
 
     // overflow flag to alu
-    assign V = result[15] ? ((~a[15] & ~b[15]) ? 1'b1 : 1'b0)
-        : ((a[15] & b[15]) ? 1'b1 : 1'b0);
+    assign V = result[15] ? (~a[15] & ~b[15]) : (a[15] & b[15]);
 
     // Negative flag set
-    assign N = sum[15] ? 1'b1 : 1'b0;
+    assign N = sum[15];
 
     // Zero Flag
     assign Z = (sum == 0);

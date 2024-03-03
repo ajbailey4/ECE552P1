@@ -27,6 +27,6 @@ module cla_4bit(
 
     assign cout = c[4];
 
-    assign  = (sat) ? ((result[3]) ?  ((~a[3] & ~b[3]) ? 4'b0111 : result) : ((a[3] & b[3]) ? 4'b1000 : result)) : result;
+    assign  sum = (sat) ? ((result[3]) ?  ((~a[3] & ~b[3]) ? 4'b0111 : result) : ((a[3] & b[3]) ? 4'b1000 : result)) : result;
 
 endmodule
