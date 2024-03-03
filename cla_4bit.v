@@ -8,6 +8,8 @@ module cla_4bit(
 );
     wire [3:0] g, p, b_xor_sub;
     wire [4:0] c;
+    
+    wire [3:0] result;
 
     assign b_xor_sub = sub ? ~b : b;
 
@@ -20,7 +22,10 @@ module cla_4bit(
     assign c[3] = g[2] | (p[2] & c[2]);
     assign c[4] = g[3] | (p[3] & c[3]);
 
-    assign sum = p ^ c[3:0];
+    assign result = p ^ c[3:0];
 
     assign cout = c[4];
+
+    assign sum = (result[3]) ? ((~cout) ? 4'b0111 : result) : ((cout) ? 4'b1000 : result);
+
 endmodule
