@@ -1,7 +1,7 @@
 module Mem_Instr(
     input [3:0] baseReg, 
     input signed [3:0] offset,
-    output reg [15:0] addr_out
+    output [15:0] addr_out
 );
 
     wire [15:0] regHold = baseReg & 16'hFFFE;
@@ -10,7 +10,7 @@ module Mem_Instr(
     cla_16bit cla(
         .a(regHold), 
         .b(signExtended), 
-        .sub(0), 
+        .sub(1'b0), 
         .sum(addr_out), 
         .cout(), 
         .N(),
