@@ -19,6 +19,10 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
 
     wire [15:0] pas_output;
 
+    wire [15:0] RED_output;
+
+    RED reduction(.A(ALU_In1),.B(ALU_In2),.Out(RED_output));
+
     cla_16bit cla(.a(ALU_In1), .b(ALU_In2), .sub(Opcode[0]), .sum(sum), .cout(), .N(N_In), .Z(Z_Out), .V(V_In));
 
     Shifter shift(.Shift_In(ALU_In1), .Shift_Val(ALU_In2), .Shift_Out(shift_output), .Mode(Opcode[0]));
@@ -50,7 +54,7 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
             Z = (ALU_Out == 16'd0) ? 1'b1 : 1'b0;
         end
         4'b0011: begin //RED
-            //ALU_Out =
+            ALU_Out = RED_output;
             NZV_wen = 3'b000;
         end
         4'b0100: begin //SLL: Z
