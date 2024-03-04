@@ -4,11 +4,11 @@ module cpu(clk, rst_n, hlt, pc);
 	output hlt;
 	output [15:0] pc;
 
-	wire [15:0] pcAddr, PCSOut, instr, wb, dstData, srcData1, srcData2, signExtOut, ALU_In2, ALU_Out, memOut;
+	wire [15:0] pcAddr, PCSOut, instr, wb, dstData, srcData1, srcData2, signExtImm, ALU_In2, ALU_Out, memOut;
 	wire [3:0] srcReg1, srcReg2;
 	wire RegWrite, ALUSrc, MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, N, Z, V, hlt, enable, sw;
 	
-	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData2), .InAddrImm(signExtOut), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
+	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData1), .InAddrImm(signExtImm), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
 	assign pc = pcAddr;
 
 	memory_instr instrMem(.data_out(instr), .data_in(), .addr(pcAddr), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(~rst_n));
@@ -20,9 +20,9 @@ module cpu(clk, rst_n, hlt, pc);
 
 	Control control(.Instruction(instr[15:12]), .RegWrite(RegWrite), .ALUSrc(ALUSrc), .MemWrite(MemWrite), .MemtoReg(MemtoReg), .MemRead(MemRead), .Branch(Branch), .PCStore(PCStore), .LxB(LxB), .Br(Br), .hlt(hlt), .sw(sw));
 
-	Sign_Extend signExtend(.Instruction(instr), .Out(signExtOut));
+	assign signExtImm = {{7{instr[8]}}, instr[8:0]};
 
-	assign ALU_In2 = ALUSrc ? signExtOut : srcData2;
+	assign ALU_In2 = ALUSrc ? signExtImm: srcData2;
 	ALU alu(.clk(clk), .rst(~rst_n), .ALU_Out(ALU_Out), .ALU_In1(srcData1), .ALU_In2(ALU_In2), .Opcode(instr[15:12]), .N_Flag(N), .Z_Flag(Z), .V_Flag(V));
 
 	assign enable = MemRead | MemWrite;

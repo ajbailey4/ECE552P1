@@ -1,5 +1,5 @@
 module PC_Updater(clk, rst, AddrSrc, InAddrReg, InAddrImm, branch, cond, Z, N, V, hlt, OutAddr, PCSOut);
-	input clk, rst, branch, Z, N, V, AddrSrc, hlt; //AddrSrc: 1 = Imm, 0 = Reg
+	input clk, rst, branch, Z, N, V, AddrSrc, hlt; //AddrSrc: 0 = Imm, 1 = Reg
 	input [2:0] cond;
 	input [15:0] InAddrImm, InAddrReg;
 	output [15:0] OutAddr, PCSOut;
@@ -14,7 +14,7 @@ module PC_Updater(clk, rst, AddrSrc, InAddrReg, InAddrImm, branch, cond, Z, N, V
 
 	Shifter ls1(.Shift_Out(shiftOut), .Shift_In(InAddrImm), .Shift_Val(4'd1), .Mode(1'b0));
 
-	assign newPc = hlt ? pcOut : (isBranching ? (AddrSrc ? pcBranchImm : InAddrReg) : pcPlus2);
+	assign newPc = hlt ? pcOut : (isBranching ? (AddrSrc ? InAddrReg : pcBranchImm) : pcPlus2);
 	assign OutAddr = pcOut;
 	assign PCSOut = pcPlus2;
 

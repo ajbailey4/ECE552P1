@@ -12,6 +12,7 @@ module cpu_tb();
    wire        MemRead;
    wire [15:0] MemAddress;
    wire [15:0] MemData;
+   wire [15:0] Immediate;
 
    wire        Halt;         /* Halt executed and in Memory or writeback stage */
         
@@ -66,7 +67,7 @@ module cpu_tb();
 	
     always @(posedge clk) begin
     	cycle_count = cycle_count + 1;
-	if (cycle_count > 20) begin
+	if (cycle_count > 100000) begin
 		$display("hmm....more than 100000 cycles of simulation...error?\n");
 		$finish;
 	end
@@ -176,6 +177,8 @@ module cpu_tb();
    
    assign MemData = DUT.srcData2;
    // Data to be written to memory for memory writes (16 bits)
+
+   assign Immediate = DUT.signExtImm;
    
 //   assign Halt = DUT.memory0.halt; //You won't need this because it's part of the main cpu interface
    // Is processor halted (1 bit signal)
