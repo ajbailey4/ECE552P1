@@ -1,10 +1,10 @@
 // TODO: 3 bits for num of bits. one bit as sined or unsigned out
 
 module Control(Instruction, RegWrite, ALUSrc, 
-    MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, hlt);
+    MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, hlt, sw);
 
     input [3:0] Instruction;
-    output RegWrite, MemWrite, MemtoReg, MemRead, Branch, ALUSrc, LxB, PCStore, Br, hlt; // General Controls
+    output RegWrite, MemWrite, MemtoReg, MemRead, Branch, ALUSrc, LxB, PCStore, Br, hlt, sw; // General Controls
 
     // comp. inst. & lw,llb,lhb,pcs
     assign RegWrite = (~Instruction[3] | 
@@ -15,6 +15,8 @@ module Control(Instruction, RegWrite, ALUSrc,
 
     // sw
     assign MemWrite = (Instruction[3] & ~Instruction[2] & ~Instruction[1] & Instruction[0]);
+
+    assign sw = (Instruction[3] & ~Instruction[2] & ~Instruction[1] & Instruction[0]);
 
     // lw
     assign MemRead = (Instruction[3] & ~Instruction[2] & ~Instruction[1] & ~Instruction[0]);
