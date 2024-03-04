@@ -5,7 +5,7 @@ module cpu(clk, rst_n, hlt, pc);
 	output [15:0] pc;
 
 	wire [15:0] pcAddr, PCSOut, instr, wb, dstData, srcData1, srcData2, signExtOut, ALU_In2, ALU_Out, memOut;
-	wire [3:0] srcReg1;
+	wire [3:0] srcReg1, srcReg2;
 	wire RegWrite, ALUSrc, MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, N, Z, V, hlt, enable, sw;
 	
 	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData2), .InAddrImm(signExtOut), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
