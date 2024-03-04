@@ -19,6 +19,6 @@ module RegisterFile(clk, rst, SrcReg1,  SrcReg2, DstReg, WriteReg, DstData, SrcD
 	Register registers[15:0] (.clk(clk), .rst(rst), .D(DstData), .WriteReg(wdecoded),
 		.ReadEnable1(rdecoded1), .ReadEnable2(rdecoded2), .Bitline1(rout1), .Bitline2(rout2));
 		
-	assign SrcData1 = (WriteReg & (SrcReg1 == DstReg)) ? DstData : rout1;
-	assign SrcData2 = (WriteReg & (SrcReg2 == DstReg)) ? DstData : rout2;
+	//assign SrcData1 = (WriteReg & (SrcReg1 == DstReg)) ? DstData : rout1;
+	//assign SrcData2 = (WriteReg & (SrcReg2 == DstReg)) ? DstData : rout2;
 endmodule
