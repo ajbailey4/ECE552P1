@@ -52,7 +52,7 @@ module memory_instr (data_out, data_in, addr, enable, wr, clk, rst);
       if (rst) begin
          //load loadfile_all.img
          if (!loaded) begin
-            $readmemh("test1.img", mem);
+            $readmemh("C:/Users/Aydan/ECE552P1/test2.img", mem);
             loaded = 1;
          end
           
