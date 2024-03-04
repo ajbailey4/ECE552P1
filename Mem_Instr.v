@@ -5,7 +5,7 @@ module Mem_Instr(
 );
 
     wire [15:0] regHold = baseReg & 16'hFFFE;
-    wire [15:0] signExtended = ({12{offset[3]}, offset} << 1);
+    wire [15:0] signExtended = ({{12{offset[3]}}, offset} << 1);
     
     cla_16bit cla(
         .a(regHold), 
