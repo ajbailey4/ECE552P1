@@ -5,7 +5,7 @@ wire [15:0] Sum;
 wire cin;
 wire cout;
 
-cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub));
+cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub), .N(), .Z(), .V());
 	initial begin
 		$monitor("A=%d, B=%d | Sub=%d | Sum=%d", A, B, sub, Sum);
 		sub = 0; //Test addition
