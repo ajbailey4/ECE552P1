@@ -4,7 +4,8 @@ module cpu(clk, rst_n, hlt, pc);
 	output hlt;
 	output [15:0] pc;
 
-	wire [15:0] pcAddr, PCSOut, instr, srcReg1, wb, dstData, srcData1, srcData2, signExtOut, ALU_In2, ALU_Out, memOut;
+	wire [15:0] pcAddr, PCSOut, instr, wb, dstData, srcData1, srcData2, signExtOut, ALU_In2, ALU_Out, memOut;
+	wire [3:0] srcReg1;
 	wire RegWrite, ALUSrc, MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, N, Z, V, hlt, enable;
 	
 	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData2), .InAddrImm(signExtOut), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
@@ -15,7 +16,7 @@ module cpu(clk, rst_n, hlt, pc);
 	assign dstData = PCStore ? PCSOut : wb;
 	RegisterFile registerFile(.clk(clk), .rst(~rst_n), .SrcReg1(srcReg1), .SrcReg2(instr[3:0]), .DstReg(instr[11:8]), .WriteReg(RegWrite), .DstData(dstData), .SrcData1(srcData1), .SrcData2(srcData2));
 
-	Control(.Instruction(instr[15:12]), .RegWrite(RegWrite), .ALUSrc(ALUSrc), .MemWrite(MemWrite), .MemtoReg(MemtoReg), .MemRead(MemRead), .Branch(Branch), .PCStore(PCStore), .LxB(LxB), .Br(Br), .hlt(hlt));
+	Control control(.Instruction(instr[15:12]), .RegWrite(RegWrite), .ALUSrc(ALUSrc), .MemWrite(MemWrite), .MemtoReg(MemtoReg), .MemRead(MemRead), .Branch(Branch), .PCStore(PCStore), .LxB(LxB), .Br(Br), .hlt(hlt));
 
 	Sign_Extend signExtend(.Instruction(instr), .Out(signExtOut));
 
