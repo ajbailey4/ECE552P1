@@ -18,7 +18,6 @@ module t_PC_Updater();
 		hlt = 0;
 		
 		@(posedge clk);
-		#1;
 		
 		rst = 0;
 
@@ -28,7 +27,6 @@ module t_PC_Updater();
 		end
 
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd2) begin
 			testFailed = 1;
@@ -41,7 +39,6 @@ module t_PC_Updater();
 		Z = 1;
 		InAddrReg = 16'd10;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd4) begin
 			testFailed = 1;
@@ -51,7 +48,6 @@ module t_PC_Updater();
 		// is 4, next 10
 		Z = 0;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd10) begin
 			testFailed = 1;
@@ -63,7 +59,6 @@ module t_PC_Updater();
 		cond = 3'b001;
 		InAddrReg = 16'd20;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd12) begin
 			testFailed = 1;
@@ -72,7 +67,6 @@ module t_PC_Updater();
 
 		Z = 1; // (is 12, next 20)
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd20) begin
 			testFailed = 1;
@@ -85,7 +79,6 @@ module t_PC_Updater();
 		cond = 3'b010;
 		InAddrReg = 16'd30;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd22) begin
 			testFailed = 1;
@@ -96,7 +89,6 @@ module t_PC_Updater();
 		Z = 0;
 		N = 0;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd30) begin
 			testFailed = 1;
@@ -108,7 +100,6 @@ module t_PC_Updater();
 		cond = 3'b011;
 		InAddrReg = 16'd40;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd32) begin
 			testFailed = 1;
@@ -117,7 +108,6 @@ module t_PC_Updater();
 
 		N = 1;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd40) begin
 			testFailed = 1;
@@ -130,7 +120,6 @@ module t_PC_Updater();
 		cond = 3'b100;
 		InAddrReg = 16'd50;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd42) begin
 			testFailed = 1;
@@ -140,7 +129,6 @@ module t_PC_Updater();
 		Z = 0;
 		N = 0;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd50) begin
 			testFailed = 1;
@@ -150,8 +138,6 @@ module t_PC_Updater();
 		Z = 1;
 		InAddrReg = 16'd60;
 		@(posedge clk);
-		#1;
-		#1;
 
 		if (OutAddr != 16'd60) begin
 			testFailed = 1;
@@ -164,7 +150,6 @@ module t_PC_Updater();
 		cond = 3'b101;
 		InAddrReg = 16'd70;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd62) begin
 			testFailed = 1;
@@ -174,7 +159,6 @@ module t_PC_Updater();
 		Z = 1;
 		N = 0;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd70) begin
 			testFailed = 1;
@@ -185,7 +169,6 @@ module t_PC_Updater();
 		Z = 0;
 		InAddrReg = 16'd80;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd80) begin
 			testFailed = 1;
@@ -199,7 +182,6 @@ module t_PC_Updater();
 		cond = 3'b110;
 		InAddrReg = 16'd100;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd82) begin
 			testFailed = 1;
@@ -208,7 +190,6 @@ module t_PC_Updater();
 
 		V = 1;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd100) begin
 			testFailed = 1;
@@ -222,7 +203,6 @@ module t_PC_Updater();
 		cond = 3'b111;
 		InAddrReg = 16'd100;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd100) begin
 			testFailed = 1;
@@ -232,7 +212,6 @@ module t_PC_Updater();
 		// Halt
 		hlt = 1;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd100) begin
 			testFailed = 1;
@@ -242,7 +221,6 @@ module t_PC_Updater();
 		hlt = 0;
 		branch = 0;
 		@(posedge clk);
-		#1;
 
 		if (OutAddr != 16'd102) begin
 			testFailed = 1;
