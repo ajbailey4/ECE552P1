@@ -35,7 +35,7 @@ module ALU (clk, rst, ALU_Out, ALU_In1, ALU_In2, Opcode, N_Flag, Z_Flag, V_Flag)
     dff Z_dff(.q(Z_Flag), .d(Z_In), .wen(NZV_wen[1]), .clk(clk), .rst(rst));
     dff V_dff(.q(V_Flag), .d(V_In), .wen(NZV_wen[0]), .clk(clk), .rst(rst));
 
-    Mem_Instr mem(.baseReg(ALU_In1[3:0]), .offset(ALU_In2[3:0]), .addr_out(Mem_output));
+    Mem_Instr mem(.baseReg(ALU_In1), .offset(ALU_In2[3:0]), .addr_out(Mem_output));
 
     assign Z_In = (Opcode[3:1] == 3'b000) ? Z_Out : Z;
 
