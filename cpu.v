@@ -9,7 +9,8 @@ module cpu(clk, rst_n, hlt, pc);
 	wire RegWrite, ALUSrc, MemWrite, MemtoReg, MemRead, Branch, PCStore, LxB, Br, N, Z, V, hlt, enable, sw;
 	
 	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData2), .InAddrImm(signExtOut), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
-	
+	assign pc = pcAddr;
+
 	memory_instr instrMem(.data_out(instr), .data_in(), .addr(pcAddr), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(~rst_n));
 
 	assign srcReg1 = LxB ? instr[11:8] : instr[7:4];
