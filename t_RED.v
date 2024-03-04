@@ -1,7 +1,7 @@
-module t_RED.v();
+module t_RED();
 
 	reg [15:0] A, B;
-	wire [15:0] Out
+	wire [15:0] Out;
 
 	RED DUT(.A(A), .B(B), .Out(Out));
 
@@ -10,7 +10,7 @@ module t_RED.v();
 		B = 16'h3344;
 
 		if (Out != 16'hFFAA) begin
-			$display("test failed: Output was %h, should be %h", Out);
+			$display("test failed: Output was %h, should be %h", Out, 16'hFFAA);
 		end else begin
 			$display("test passed!");
 		end

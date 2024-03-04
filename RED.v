@@ -18,14 +18,14 @@ cla_4bit cla_l0(.a(A[3:0]), .b(B[3:0]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum
 cla_4bit cla_l1(.a(A[7:4]), .b(B[7:4]), .cin(l0_cout), .sub(1'b0), .sat(1'b0), .sum(lower[7:4]), .cout(lower[8]));
 
 // sign extension
-assign upper_ext = {3{upper[8]}, upper};
-assign lower_ext = {3{lower[8]}, lower};
+assign upper_ext = {{3{upper[8]}}, upper};
+assign lower_ext = {{3{lower[8]}}, lower};
 
 // final
 cla_4bit cla_f0(.a(upper_ext[3:0]), .b(lower_ext[3:0]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[3:0]), .cout(f0_cout));
 cla_4bit cla_f1(.a(upper_ext[7:4]), .b(lower_ext[7:4]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[7:4]), .cout(f1_cout));
 cla_4bit cla_f2(.a(upper_ext[11:8]), .b(lower_ext[11:8]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[11:8]), .cout(final[12]));
 
-assign Out = {3{final[12]}, final};
+assign Out = {{3{final[12]}}, final};
 
 endmodule
