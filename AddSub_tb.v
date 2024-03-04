@@ -3,9 +3,9 @@ reg [15:0] A, B;
 reg sub;
 wire [15:0] Sum;
 wire cin;
-wire cout;
+wire cout, V;
 
-cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub), .N(), .Z(), .V());
+cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub), .N(), .Z(), .V(V));
 	initial begin
 		$monitor("A=%d, B=%d | Sub=%d | Sum=%d", A, B, sub, Sum);
 		sub = 0; //Test addition
