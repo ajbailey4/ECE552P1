@@ -36,6 +36,35 @@ cla_16bit DUT(.a(A), .b(B), .sum(Sum), .cout(Cout), .sub(sub), .N(), .Z(), .V())
 			end
 		end
 		
+		sub = 0; //Test subtraction
+		A = 32767; //Generate a random number between 0 and 15
+		B = 16'd100;
+		#10;
+		
+		//Check to see if sub matches sum and if not if it is due to overflow
+		if(~V && Sum != 16'h7FFF) begin
+			$display("case 2: Sub didn't match | Sub: %d | Real: %d", Sum, (A-B));
+			if((A - B) >= -32768) begin
+				$display("Test Failed: no overflow and no match");
+				$stop;
+			end
+		end
+
+		//test negative saturation
+		sub = 0; 
+		A = -32767;
+		B = -1234;
+		#10; //Wait for 10 time units
+		
+		//Check to see if add matches sum and if not if it is due to overflow
+		if(~V && Sum != 16'h8000) begin
+			$display("Sum didn't match | Sum: %d | Real: %d", Sum, (A+B));
+			if((A + B) <= 32767) begin
+				$display("Test Failed: no overflow and no match");
+				$stop;
+			end
+		end
+		
 		$display("Sum and Sub Tests Passed!");
 		$stop;
 	end
