@@ -1,5 +1,5 @@
 module Mem_Instr(
-    input [3:0] baseReg, 
+    input [15:0] baseReg, 
     input signed [3:0] offset,
     output [15:0] addr_out
 );
