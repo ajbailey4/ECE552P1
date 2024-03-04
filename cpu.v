@@ -10,7 +10,7 @@ module cpu(clk, rst_n, hlt, pc);
 	
 	PC_Updater PCU(.clk(clk), .rst(~rst_n), .AddrSrc(Br), .InAddrReg(srcData2), .InAddrImm(signExtOut), .branch(Branch), .cond(instr[11:9]), .Z(Z), .N(N), .V(V), .hlt(hlt), .OutAddr(pcAddr), .PCSOut(PCSOut));
 	
-	memory1c instrMem(.data_out(instr), .data_in(), .addr(pcAddr), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(~rst_n));
+	memory_instr instrMem(.data_out(instr), .data_in(), .addr(pcAddr), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(~rst_n));
 
 	assign srcReg1 = LxB ? instr[11:8] : instr[7:4];
 	assign dstData = PCStore ? PCSOut : wb;
