@@ -6,7 +6,7 @@ module RED(
 
 wire [8:0] upper, lower;
 wire [11:0] upper_ext, lower_ext;
-wire [12:0] final;
+wire [12:0] final_out;
 wire u0_cout, l0_cout, f0_cout, f1_cout;
 
 // upper
@@ -22,10 +22,10 @@ assign upper_ext = {{3{upper[8]}}, upper};
 assign lower_ext = {{3{lower[8]}}, lower};
 
 // final
-cla_4bit cla_f0(.a(upper_ext[3:0]), .b(lower_ext[3:0]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[3:0]), .cout(f0_cout));
-cla_4bit cla_f1(.a(upper_ext[7:4]), .b(lower_ext[7:4]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[7:4]), .cout(f1_cout));
-cla_4bit cla_f2(.a(upper_ext[11:8]), .b(lower_ext[11:8]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final[11:8]), .cout(final[12]));
+cla_4bit cla_f0(.a(upper_ext[3:0]), .b(lower_ext[3:0]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final_out[3:0]), .cout(f0_cout));
+cla_4bit cla_f1(.a(upper_ext[7:4]), .b(lower_ext[7:4]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final_out[7:4]), .cout(f1_cout));
+cla_4bit cla_f2(.a(upper_ext[11:8]), .b(lower_ext[11:8]), .cin(1'b0), .sub(1'b0), .sat(1'b0), .sum(final_out[11:8]), .cout(final[12]));
 
-assign Out = {{3{final[12]}}, final};
+assign Out = {{3{final_out[12]}}, final_out};
 
 endmodule
